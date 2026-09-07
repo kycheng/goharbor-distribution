@@ -4,9 +4,8 @@ linters:
     - unconvert
     - gofmt
     - goimports
-    - golint
     - ineffassign
-    - vet
+    - govet
     - unused
     - misspell
   disable:
@@ -22,12 +21,13 @@ linters-settings:
 
 run:
   deadline: 2m
-  skip-dirs:
-    - vendor
 
 issues:
+  exclude-dirs:
+    - vendor
   exclude-rules:
     # io/ioutil is deprecated, but won't be removed until Go v2. It's safe to ignore for the release/2.8 branch.
-    - text: "SA1019: \"io/ioutil\" has been deprecated since Go 1.16"
+    # The wording of the staticcheck message changed ("since Go 1.16" -> "since Go 1.19"), so match either.
+    - text: "SA1019: \"io/ioutil\" has been deprecated since Go 1\\.(16|19)"
       linters:
         - staticcheck
